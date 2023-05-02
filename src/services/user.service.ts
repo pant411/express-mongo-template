@@ -47,7 +47,11 @@ export const signToken = async (user: DocumentType<User>) => {
   );
 
   // Create a Session
-  redisClient.set(String(user._id), access_token, {
+  redisClient.set(String(user._id), JSON.stringify({
+    _id: user._id,
+    name: user.name,
+    email: user.email
+  }), {
     EX: 60 * 60,
   });
 
