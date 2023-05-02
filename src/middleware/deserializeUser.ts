@@ -27,21 +27,21 @@ export const deserializeUser = async (
     }
 
     // Validate Access Token
-    const decoded = verifyJwt<{ sub: string }>(access_token);
+    const decoded = verifyJwt<{ _id: string, name: string, email: string }>(access_token);
 
     if (!decoded) {
       return next(new AppError(`Invalid token or user doesn't exist`, 401));
     }
 
     // Check if user has a valid session
-    const session = await redisClient.get(decoded.sub);
+    const session = await redisClient.get(decoded._id);
 
     if (!session) {
       return next(new AppError(`User session has expired`, 401));
     }
 
     // Check if user still exist
-    const user = await findUserById(JSON.parse(session)._id);
+    const user = await findUserById(decoded._id);
 
     if (!user) {
       return next(new AppError(`User with that token no longer exist`, 401));

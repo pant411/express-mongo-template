@@ -68,10 +68,10 @@ export const loginHandler = async (
       
       return next(new AppError('Invalid email or password', 401));
     }
-    console.log('test1')
+    // console.log('test1')
     // Create an Access Token
     const { access_token } = await signToken(user);
-    console.log('test2')
+    // console.log('test2')
     // Send Access Token in Cookie
     res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('logged_in', true, {
