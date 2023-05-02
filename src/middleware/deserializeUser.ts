@@ -27,7 +27,11 @@ export const deserializeUser = async (
     }
 
     // Validate Access Token
-    const decoded = verifyJwt<{ _id: string, name: string, email: string }>(access_token);
+    const decoded = verifyJwt<{
+       _id: string, name: string, email: string 
+      }>(
+      access_token,
+      'accessTokenPublicKey');
 
     if (!decoded) {
       return next(new AppError(`Invalid token or user doesn't exist`, 401));
@@ -50,7 +54,7 @@ export const deserializeUser = async (
     // This is really important (Helps us know if the user is logged in from other controllers)
     // You can do: (req.user or res.locals.user)
     res.locals.user = user;
-
+    // console.log(res.locals.user);
     next();
   } catch (err: any) {
     next(err);

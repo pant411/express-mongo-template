@@ -41,8 +41,22 @@ export const signToken = async (user: DocumentType<User>) => {
       name: user.name,
       email: user.email
     },
+    'accessTokenPrivateKey',
     {
       expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+    }
+  );
+
+  // Sign the refresh token
+  const refresh_token = signJwt(
+    {
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    }, 
+    'refreshTokenPrivateKey', 
+    {
+      expiresIn: `${config.get<number>('refreshTokenExpiresIn')}m`,
     }
   );
 
@@ -56,5 +70,5 @@ export const signToken = async (user: DocumentType<User>) => {
   });
 
   // Return access token
-  return { access_token };
+  return { access_token, refresh_token };
 };

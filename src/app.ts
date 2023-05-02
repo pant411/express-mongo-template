@@ -35,7 +35,7 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 // Testing
-app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
+app.get('/api/healthChecker', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
     status: 'success',
     message: 'Welcome !!!',
